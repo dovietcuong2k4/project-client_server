@@ -22,6 +22,8 @@ public class DBConnector {
     //Khối này sẽ được chạy ngay khi được nhắc đến và chạy 1 lần duy nhất
     static {
         loadProperties();
+        loadJdbcDriver();
+        checkURL();
     }
 
     private DBConnector() {
@@ -59,5 +61,30 @@ public class DBConnector {
     private static String require(Properties p , String key){
         String v =p.getProperty(key);
         return Objects.requireNonNull(v,"Thiếu khóa cấu hình: "+ key);
+    }
+
+    private static void loadJdbcDriver(){
+        try {
+            //bây giờ thì gần như không cần khai báo như này nữa vì jdbc 4.0+ và java 6 trở lên đã tự động
+            //chỉ để chắc chắn đã cài jdbc driver vào project
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            LOGGER.info("MySQL jdbc Driver đã được load thành công.");
+        } catch (ClassNotFoundException e) {
+            throw new IllegalStateException("Không tìm thấy Jdbc Driver. Hãy thêm mysql-connector-java vào chương trình",e);
+        }
+    }
+
+    //chỉ để kiểm tra các thuộc tính của url để tránh cảnh báo khi load db
+    private static void checkURL(){
+        if(!url.contains("serverTimeZone")){
+            LOGGER.warning("Khuyến nghị thêm serverTimeZone=UTC vào url để tránh cảnh báo timezone");
+        }
+        if (!url.contains("useUnicode")){
+            LOGGER.warning("Khuyến nghị thêm useUnicode=true&characterEncoding=UTF-8 vào url để hỗ trợ unicode Tiếng Việt ");
+        }
+    }
+
+    public static void closeQuietly(){
+        if ()
     }
 }
