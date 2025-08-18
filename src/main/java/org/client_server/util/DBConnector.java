@@ -85,6 +85,6 @@ public class DBConnector {
     }
 
     public static void closeQuietly(){
-        if ()
+        
     }
 }
