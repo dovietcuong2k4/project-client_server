@@ -19,6 +19,7 @@ public class Student {
         this.major = major;
     }
 
+
     public Student() {
     }
 

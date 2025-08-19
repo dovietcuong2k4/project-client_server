@@ -76,15 +76,15 @@ public class DBConnector {
 
     //chỉ để kiểm tra các thuộc tính của url để tránh cảnh báo khi load db
     private static void checkURL(){
-        if(!url.contains("serverTimeZone")){
-            LOGGER.warning("Khuyến nghị thêm serverTimeZone=UTC vào url để tránh cảnh báo timezone");
+        if(!url.contains("serverTimezone")){
+            LOGGER.warning("Khuyến nghị thêm serverTimezone=UTC vào url để tránh cảnh báo timezone");
         }
         if (!url.contains("useUnicode")){
             LOGGER.warning("Khuyến nghị thêm useUnicode=true&characterEncoding=UTF-8 vào url để hỗ trợ unicode Tiếng Việt ");
         }
+        if (!url.contains("allowPublicKeyRetrieval")){
+            LOGGER.warning("Cần thêm public key nếu đang sử dụng MySQL 8.0+");
+        }
     }
 
-    public static void closeQuietly(){
-        
-    }
 }
